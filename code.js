@@ -26,7 +26,8 @@ var code = e.keyCode;
 
 
 //console.log(code);
-if (code == 65){}
+if (code == 65){l_flppddl.ApplyTorque(100);}
+if (code == 83){r_flppddl.ApplyTorque(100);}
 
 //left
 if(code == 37){chng = -1;}
@@ -61,9 +62,12 @@ var canvas_height;
 var nw = 0;
 var chng = 0;
 var pwr=0.9;
-var rd = 0.12;
+var rd = 12;
 //1 metre of box2d length becomes 100 pixels on canvas
 var scale = 100;
+var l_flppddl;
+var r_flppddl;
+
 
 var circ = {
 'restitution' : 2.0 , 
@@ -144,46 +148,26 @@ createShape(world,300,780,[0,0,210,0,210,-75,135,-75],{ 'userdata' : "bot_rightb
 // flip_base = createShape(world,240,510,[0,0,0,60,60,60,60,0],{ 'userdata' : "flipleft" });		
 
 
-createShape(world,70,200,[0,0,0,180,75,105,75,45],{ 'userdata' : "bot_left",'type' : b2Body.b2_dynamicBody });		
+l_flppddl = createShape(world,242,405,[0,0,28,120,56,0],{ 'userdata' : "bot_left",'type' : b2Body.b2_dynamicBody });		
+l_flpcirc = createCircle(world, 270,405, 28,{'type' : b2Body.b2_staticBody});
+var jointDef = new b2RevoluteJointDef();
+jointDef.Initialize(l_flpcirc, l_flppddl, l_flpcirc.GetWorldCenter());
+jointDef.upperAngle = 2.2;        
+jointDef.lowerAngle = 1;        
+jointDef.enableLimit = true;
+world.CreateJoint(jointDef);
 
-//flipcirc(world, 270,405, 35);
-createCircle(world, 270/scale,405/scale, 35/scale,{'type' : b2Body.b2_staticBody});
+
+r_flppddl = createShape(world,242,205,[0,0,28,120,56,0],{ 'userdata' : "bot_left",'type' : b2Body.b2_dynamicBody });		
+r_flpcirc = createCircle(world, 270,205, 28,{'type' : b2Body.b2_staticBody});
+var jointDef = new b2RevoluteJointDef();
+jointDef.Initialize(r_flpcirc, r_flppddl, r_flpcirc.GetWorldCenter());
+jointDef.upperAngle = 2.2;        
+jointDef.lowerAngle = 1;        
+jointDef.enableLimit = true;
+world.CreateJoint(jointDef);
 
 
-
-
-//flipcirc(world, 240/scale, game.screen_height-(510/scale),2 ,{ 'density' : 2.0 });
-
-//  //box1
-//         var box1Def = new b2BodyDef;
-//         box1Def.type = b2Body.b2_staticBody;
-//         box1Def.position.Set(1,5);
-//         var fixDef2 = new b2FixtureDef;
-//         fixDef2.density = 10.0;
-//         fixDef2.friction = 0.5;
-//         fixDef2.restitution = .5;
-//         fixDef2.shape = new b2PolygonShape;
-//         fixDef2.shape.SetAsBox(.3,.3);
-//         var box1 = world.CreateBody(box1Def);
-//         box1.CreateFixture(fixDef2);
-// 
-//         //box2
-//         var box2Def = new b2BodyDef;
-//         box2Def.type = b2Body.b2_dynamicBody;
-//         box2Def.position.Set(2,6);
-//         var fixDef3 = new b2FixtureDef;
-//         fixDef3.density = 10.0;
-//         fixDef3.friction = 0.5;
-//         fixDef3.restitution = .2;
-//         fixDef3.shape = new b2PolygonShape;
-//         fixDef3.shape.SetAsBox(.3,.8);
-//         var box2 = world.CreateBody(box2Def);
-//         box2.CreateFixture(fixDef3);
-// 
-//         //Revolute joint
-//   var jointDef = new b2RevoluteJointDef();
-// jointDef.Initialize(box1, box2, box1.GetWorldCenter());
-//         world.CreateJoint(jointDef);
 
 
 //http://www.gaanza.com/blog/pinball-flipper-with-box2d/
