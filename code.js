@@ -29,6 +29,11 @@ var code = e.keyCode;
 //console.log(code);
 if (code == 65){l_flppddl.ApplyTorque(100);}
 if (code == 83){r_flppddl.ApplyTorque(-100);}
+if (code == 87){
+launch.ApplyForce(up_dir , launch.GetPosition() );
+}
+
+
 
 //left
 if(code == 37){chng = -1;}
@@ -71,6 +76,10 @@ var rd = 12;
 var scale = 100;
 var l_flppddl;
 var r_flppddl;
+var launch;
+
+
+var up_dir = new b2Vec2(0,120); 
 
 
 var circ = {
@@ -134,6 +143,7 @@ createPox(world,0,0,.01,810,{ 'userdata' : "lft_wall" });
 createPox(world,539.09,0,.01,710,{ 'userdata' : "rgt_wall" });	
 createPox(world,509.09,120,.01,330,{ 'userdata' : "shoot_wall" });	
 createPox(world,0,0,540,.01,{ 'userdata' : "top_wall" });	
+createPox(world,510,780,40,.01,{ 'userdata' : "top_wall" });	
 
 createShape(world,0,0,[0,0,0,120,120,0,],{ 'userdata' : "upper_left_triangle" });		
 createShape(world,450,0,[0,0,90,90,90,0,],{ 'userdata' : "upper_right_triangle" });		
@@ -145,11 +155,31 @@ createShape(world,355,630,[0,0,120,-60,120,-180],{ 'userdata' : "low_left_tri" }
 createShape(world,30,600,[0,0,0,180,75,105,75,45],{ 'userdata' : "bot_left" });		
 createShape(world,30,705,[0,0,0,75,210,75,75,0],{ 'userdata' : "bot_leftb" });		
 
-createShape(world,510,600,[0,0,-75,45,-75,105,0,180],{ 'userdata' : "bot_right" });		
-createShape(world,300,780,[0,0,210,0,210,-75,135,-75],{ 'userdata' : "bot_rightb" });		
+createShape(world,509,600,[0,0,-75,45,-75,105,0,180],{ 'userdata' : "bot_right" });		
+createShape(world,300,780,[0,0,209,0,209,-75,135,-75],{ 'userdata' : "bot_rightb" });		
 
-// flip_left = createShape(world,240,540,[0,0,30,150,60,0],{ 'userdata' : "flipleft" });		
-// flip_base = createShape(world,240,510,[0,0,0,60,60,60,60,0],{ 'userdata' : "flipleft" });		
+
+
+launch = createShape(world,511,700,[0,0,0,60,28,60,28,0],{ 'userdata' : "launch",'type' : b2Body.b2_dynamicBody });			
+//launch = createShape(world,270,180,[0,0,0,60,28,60,28,0],{ 'userdata' : "launch",'type' : b2Body.b2_dynamicBody });			
+
+
+
+
+
+var worldAxis = new b2Vec2(0, 0);
+var prismaticJointDef = new b2PrismaticJointDef();
+prismaticJointDef.Initialize(world.GetGroundBody(), launch, launch.GetWorldCenter(), worldAxis);  //ground must be the first body
+prismaticJointDef.lowerTranslation = 150/scale;
+prismaticJointDef.upperTranslation = 0/scale;
+prismaticJointDef.enableLimit = true;
+// launch.enableMotor = true;
+// launch.motorForce = 1000;
+// launch.motorSpeed = 1000;
+
+
+prismaticJoint = world.CreateJoint(prismaticJointDef);
+
 
 
 l_flppddl = createShape(world,135-28,675,[0,0,28,120,56,0],{ 'userdata' : "bot_left",'type' : b2Body.b2_dynamicBody });		
