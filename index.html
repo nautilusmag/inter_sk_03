@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Racing Car in Box2d</title>
+	
+	<script src="jquery-1.6.4.min.js"></script>
+	<script src="Box2dWeb-2.1.a.3.js"></script>
+	<script src="code_functions.js"></script>
+	<script src="code.js"></script>
+<style>
+#ring{
+width:730px;height:730px;
+position:relative;
+}
+#cnnon{
+width:20px;height:730px;
+position:absolute;z-index:3;top:0px;left:355px;
+}
+#blk{width:20px;height:20px;border:1px solid red;
+position:relative;z-index:3;top:1px;
+}
+</style>
+
+</head>
+
+<body style="margin:0px;">
+<div id="ring">
+<div id="cnnon"><div id="blk"></div></div>
+	<canvas id="canvas" width='540' height='810' style="background-color:#333;"></canvas>
+</div>
+</body>
+  
+</html>
